@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { todoList } from "../hooks/useTodos";
 import { TodoItem } from "./TodoItem";
+import { todoList } from "../hooks/useTodos";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import ConfirmDialog from "./ConfirmDialog";
 
@@ -37,6 +37,12 @@ const TodoModal = () => {
     return new Date().toISOString().split("T")[0];
   };
 
+  const closeForm = () => {
+    setFormData({ name: "", description: "", dueDate: "" });
+    setEditingId(null);
+    setIsCreating(false);
+  };
+
   const saveTask = (e) => {
     e.preventDefault();
 
@@ -49,7 +55,9 @@ const TodoModal = () => {
     if (editingId) {
       // โหมดแก้ไข (Edit)
       setTasks(
-        tasks.map((t) => (t.id === editingId ? { ...t, ...formData } : t))
+        tasks.map((task) =>
+          task.id === editingId ? { ...task, ...formData } : task
+        )
       );
     } else {
       // โหมดเพิ่ม (Add)
@@ -59,12 +67,6 @@ const TodoModal = () => {
 
     // Reset ทุกอย่างกลับค่าเดิม
     closeForm();
-  };
-
-  const closeForm = () => {
-    setFormData({ name: "", description: "", dueDate: "" });
-    setEditingId(null);
-    setIsCreating(false);
   };
 
   const deleteTask = (id) => setTasks(tasks.filter((task) => task.id !== id));
