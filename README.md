@@ -12,7 +12,7 @@
 
 ## Preview
 
-![App Screenshot](./src/image/Screenshot-App.png)
+![App Screenshot](/public/image/Screenshot-App.png)
 
 ---
 
