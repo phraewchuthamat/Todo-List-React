@@ -80,18 +80,17 @@
 เปิด Terminal หรือ Command Prompt แล้วใช้คำสั่ง:
 
 ```bash
-git clone [https://github.com/phraewchuthamat/Todo-List-React.git](https://github.com/phraewchuthamat/Todo-List-React.git)
+git clone https://github.com/phraewchuthamat/Todo-List-React.git
+```
 
 ```bash
-  cd Todo-List-React
+cd Todo-List-React
+```
 
-ติดตั้ง Dependencies:
+```bash
+npm install
+```
 
-   ```bash
-   npm install
-
-
-รันโปรเจ็กต์
-
-  ```bash
-  npm run dev
+```bash
+npm run dev
+```
