@@ -67,16 +67,7 @@ const TodoModal = () => {
     setIsCreating(false);
   };
 
-  //const deleteTask = (id) => setTasks(tasks.filter((task) => task.id !== id));
-  const deleteTask = (id) => {
-    const remainTasks = tasks.filter((task) => task.id != id);
-
-    if (remainTasks.length === 0) {
-      setTasks(todoList);
-    } else {
-      setTasks(todoList);
-    }
-  };
+  const deleteTask = (id) => setTasks(tasks.filter((task) => task.id !== id));
 
   const toggleComplete = (id) => {
     setTasks(

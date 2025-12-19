@@ -16,14 +16,14 @@ export default function ConfirmDialog({
         <div className="flex gap-4">
           <button
             onClick={onCancel}
-            className="flex-1 bg-white border-[3px] border-black py-2 font-bold text-lg hover:bg-accent active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+            className="flex-1 bg-secondary border-[3px] border-black py-2 font-bold text-lg hover:bg-gray-100 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
           >
             No
           </button>
 
           <button
             onClick={onConfirm}
-            className="flex-1 bg-white border-[3px] border-black py-2 font-bold text-lg hover:bg-secondary active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+            className="flex-1 bg-accent border-[3px] border-black py-2 font-bold text-lg hover:bg-gray-100 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
           >
             Yes
           </button>
