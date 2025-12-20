@@ -1,4 +1,4 @@
-export const todoList = [
+export const demoData = [
   {
     name: "make dinner",
     dueDate: "2025-12-22",
