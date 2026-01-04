@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { TodoItem } from "./TodoItem";
-import { todoList } from "../hooks/useTodos";
+import { useData } from "../hooks/useData";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import ConfirmDialog from "./ConfirmDialog";
 
 const TodoModal = () => {
-  const [tasks, setTasks] = useLocalStorage("Todo-List", todoList);
+  const [tasks, setTasks] = useLocalStorage("Todo-List", useData);
   const [isCreating, setIsCreating] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
