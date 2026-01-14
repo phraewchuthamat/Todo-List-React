@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { getTodayString } from '../utils/formatDate'
+import { FormField } from './ui/FormField'
 
 export const TodoForm = ({ initialData, onSubmit, onCancel }) => {
     const defaultState = { name: '', description: '', dueDate: '' }
-    const [formData, setFormData] = useState(defaultState)
+    const [formData, setFormData] = useState(initialData || defaultState)
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -31,40 +32,33 @@ export const TodoForm = ({ initialData, onSubmit, onCancel }) => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                    <label className="block font-bold">Title *</label>
-                    <input
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="w-full border-2 border-black p-3 outline-none"
-                        required
-                        placeholder="What needs to be done?"
-                    />
-                </div>
-                <div>
-                    <label className="block font-bold">Description</label>
-                    <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        className="w-full border-2 border-black p-3 outline-none"
-                        rows="3"
-                        placeholder="Add details..."
-                    />
-                </div>
-                <div>
-                    <label className="block font-bold">Due Date *</label>
-                    <input
-                        type="date"
-                        name="dueDate"
-                        min={getTodayString()}
-                        value={formData.dueDate}
-                        onChange={handleChange}
-                        className="w-full border-2 border-black p-3 outline-none"
-                        required
-                    />
-                </div>
+                <FormField
+                    label="Title *"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="What needs to be done?"
+                    required
+                />
+
+                <FormField
+                    label="Description"
+                    type="textarea"
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    placeholder="Add details..."
+                />
+
+                <FormField
+                    label="Due Date *"
+                    type="date"
+                    name="dueDate"
+                    min={getTodayString()}
+                    value={formData.dueDate}
+                    onChange={handleChange}
+                    required
+                />
                 <button
                     type="submit"
                     className="w-full bg-secondary border-2 border-black py-4 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 transition-all"

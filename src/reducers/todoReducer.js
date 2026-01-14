@@ -12,7 +12,7 @@ export const todoReducer = (state, action) => {
             return [...state, action.payload]
 
         case TODO_ACTIONS.DELETE:
-            return state.map((todo) => todo.id !== action.payload)
+            return state.filter((todo) => todo.id !== action.payload)
 
         case TODO_ACTIONS.UPDATE:
             return state.map((todo) =>

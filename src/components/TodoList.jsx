@@ -31,12 +31,9 @@ export const TodoList = ({
             </div>
 
             <div className="space-y-4 max-h-120 overflow-y-auto pr-2">
-                {tasks.length === 0 ? (
-                    <p className="text-center text-gray-400 py-8">
-                        No tasks yet. Create one!
-                    </p>
-                ) : (
-                    tasks.map((item) => (
+                {tasks.map((item) => {
+                    if (!item || !item.id) return null
+                    return (
                         <TodoItem
                             key={item.id}
                             todo={item}
@@ -44,8 +41,8 @@ export const TodoList = ({
                             onToggle={onToggleClick}
                             onEdit={onEditClick}
                         />
-                    ))
-                )}
+                    )
+                })}
 
                 <ConfirmDialog
                     isOpen={isConfirmOpen}

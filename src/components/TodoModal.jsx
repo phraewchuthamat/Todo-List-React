@@ -2,9 +2,12 @@ import { useState } from 'react'
 import { useTodo } from '../hooks/useTodo'
 import { TodoForm } from './TodoForm'
 import { TodoList } from './TodoList'
+import { useAlert } from '../hooks/useAlert'
 
 export default function TodoModal() {
-    const { tasks, addTask, updateTask, deleteTask, toggleComplete } = useTodo()
+    const { tasks, createTask, updateTask, deleteTask, toggleComplete } =
+        useTodo()
+    const { showAlert } = useAlert()
 
     const [view, setView] = useState('LIST')
     const [editingId, setEditingId] = useState(null)
@@ -15,8 +18,10 @@ export default function TodoModal() {
     const handleSave = (formData) => {
         if (view === 'EDIT' && editingId) {
             updateTask(editingId, formData)
+            showAlert('Update Task Success! ', 'success')
         } else {
-            addTask(formData)
+            createTask(formData)
+            showAlert('New Task Created! ', 'success')
         }
         setView('LIST')
         setEditingId(null)
@@ -36,6 +41,7 @@ export default function TodoModal() {
         deleteTask(targetDeleteId)
         setIsConfirmOpen(false)
         setTargetDeleteId(null)
+        showAlert('Task Deleted! ', 'error')
     }
 
     const editingTask = tasks.find((t) => t.id === editingId)
