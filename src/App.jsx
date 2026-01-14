@@ -1,11 +1,11 @@
-import TodoModal from "./components/TodoModal";
+import TodoModal from './components/TodoModal'
 
 const App = () => {
-  return (
-    <div>
-      <TodoModal />
-    </div>
-  );
-};
+    return (
+        <div>
+            <TodoModal />
+        </div>
+    )
+}
 
-export default App;
+export default App
