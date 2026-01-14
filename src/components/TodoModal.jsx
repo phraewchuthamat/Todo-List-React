@@ -1,143 +1,71 @@
-// src/components/TodoModal.jsx
-import { TodoItem } from './TodoItem'
-import ConfirmDialog from './ConfirmDialog'
-import { useTodo } from '../hooks/useTodo' // Import สมองที่เราสร้างไว้
+import { useState } from 'react'
+import { useTodo } from '../hooks/useTodo'
+import { TodoForm } from './TodoForm'
+import { TodoList } from './TodoList'
 
-const TodoModal = () => {
-    const {
-        tasks,
-        formData,
-        isCreating,
-        editingId,
-        isConfirmOpen,
-        getTodayString,
-        handleInputChange,
-        openAddMode,
-        openEditMode,
-        closeForm,
-        saveTask,
-        toggleComplete,
-        openDeleteDialog,
-        confirmDelete,
-        cancelDelete,
-    } = useTodo()
+export default function TodoModal() {
+    const { tasks, addTask, updateTask, deleteTask, toggleComplete } = useTodo()
+
+    const [view, setView] = useState('LIST')
+    const [editingId, setEditingId] = useState(null)
+
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false)
+    const [targetDeleteId, setTargetDeleteId] = useState(null)
+
+    const handleSave = (formData) => {
+        if (view === 'EDIT' && editingId) {
+            updateTask(editingId, formData)
+        } else {
+            addTask(formData)
+        }
+        setView('LIST')
+        setEditingId(null)
+    }
+
+    const handleEditClick = (todo) => {
+        setEditingId(todo.id)
+        setView('EDIT')
+    }
+
+    const handleDeleteRequest = (id) => {
+        setTargetDeleteId(id)
+        setIsConfirmOpen(true)
+    }
+
+    const confirmDelete = () => {
+        deleteTask(targetDeleteId)
+        setIsConfirmOpen(false)
+        setTargetDeleteId(null)
+    }
+
+    const editingTask = tasks.find((t) => t.id === editingId)
 
     return (
         <div className="min-h-screen bg-primary flex justify-center items-center p-4">
             <div className="w-full max-w-2xl bg-white border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8">
-                {!isCreating ? (
-                    // --- View Mode ---
-                    <section>
-                        <div className="flex justify-between items-start mb-6">
-                            <div>
-                                <h1 className="text-4xl font-bold mb-4">
-                                    To-Do List
-                                </h1>
-                                <p className="text-gray-500 text-sm">
-                                    You have{' '}
-                                    {
-                                        tasks.filter((item) => !item.completed)
-                                            .length
-                                    }{' '}
-                                    tasks left!
-                                </p>
-                            </div>
-                            <button
-                                onClick={openAddMode}
-                                className="bg-secondary border-2 border-black px-6 py-2 font-bold hover:bg-primary transition-colors"
-                            >
-                                Add Task
-                            </button>
-                        </div>
-
-                        <div className="space-y-4 max-h-120 overflow-y-auto pr-2">
-                            {tasks.map((item) => (
-                                <TodoItem
-                                    key={item.id}
-                                    todo={item}
-                                    onDelete={() => openDeleteDialog(item.id)}
-                                    onToggle={toggleComplete}
-                                    onEdit={openEditMode}
-                                />
-                            ))}
-
-                            <ConfirmDialog
-                                isOpen={isConfirmOpen}
-                                title="Are you sure?"
-                                message="Do you want delete item."
-                                onConfirm={confirmDelete}
-                                onCancel={cancelDelete}
-                            />
-                        </div>
-                    </section>
+                {view === 'LIST' ? (
+                    <TodoList
+                        tasks={tasks}
+                        onAddClick={() => setView('CREATE')}
+                        onEditClick={handleEditClick}
+                        onDeleteClick={handleDeleteRequest}
+                        onToggleClick={toggleComplete}
+                        isConfirmOpen={isConfirmOpen}
+                        confirmDelete={confirmDelete}
+                        cancelDelete={() => setIsConfirmOpen(false)}
+                    />
                 ) : (
-                    // --- Form Mode ---
-                    <section className="animate-in fade-in duration-300">
-                        <div className="flex justify-between items-center mb-8">
-                            <h1 className="text-4xl font-bold">
-                                {editingId ? 'Edit Task' : 'Add Task'}
-                            </h1>
-                            <button
-                                onClick={closeForm}
-                                className=" bg-accent border-2 border-black px-6 py-2 font-bold hover:bg-muted transition-colors"
-                            >
-                                Backward
-                            </button>
-                        </div>
-
-                        <form onSubmit={saveTask} className="space-y-6">
-                            <div>
-                                <label className="block font-bold">
-                                    Title *
-                                </label>
-                                <input
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleInputChange}
-                                    className="w-full border-2 border-black p-3 outline-none"
-                                    placeholder="Enter your todo name..."
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block font-bold">
-                                    Description *
-                                </label>
-                                <textarea
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleInputChange}
-                                    className="w-full border-2 border-black p-3 outline-none"
-                                    rows="3"
-                                    placeholder="Description"
-                                />
-                            </div>
-                            <div>
-                                <label className="block font-bold">
-                                    Due Date *
-                                </label>
-                                <input
-                                    type="date"
-                                    name="dueDate"
-                                    min={getTodayString()} // Logic นี้เรียกผ่าน Hook ได้เลย
-                                    value={formData.dueDate}
-                                    onChange={handleInputChange}
-                                    className="w-full border-2 border-black p-3 outline-none"
-                                    required
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                className="w-full bg-secondary border-2 border-black py-4 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 transition-all"
-                            >
-                                {editingId ? 'Update Task' : 'Add Task'}
-                            </button>
-                        </form>
-                    </section>
+                    <TodoForm
+                        key={editingId ? editingId : 'create-form'}
+                        initialData={view === 'EDIT' ? editingTask : null}
+                        onSubmit={handleSave}
+                        onCancel={() => {
+                            setView('LIST')
+                            setEditingId(null)
+                        }}
+                    />
                 )}
             </div>
         </div>
     )
 }
-
-export default TodoModal

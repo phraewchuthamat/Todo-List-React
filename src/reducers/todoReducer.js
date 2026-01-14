@@ -1,0 +1,37 @@
+export const TODO_ACTIONS = {
+    CREATE: 'CREATE',
+    DELETE: 'DELETE',
+    UPDATE: 'UPDATE',
+    TOGGLE: 'TOGGLE',
+    SET: 'SET',
+}
+
+export const todoReducer = (state, action) => {
+    switch (action.type) {
+        case TODO_ACTIONS.CREATE:
+            return [...state, action.payload]
+
+        case TODO_ACTIONS.DELETE:
+            return state.map((todo) => todo.id !== action.payload)
+
+        case TODO_ACTIONS.UPDATE:
+            return state.map((todo) =>
+                todo.id === action.payload.id
+                    ? { ...todo, ...action.payload }
+                    : todo
+            )
+
+        case TODO_ACTIONS.TOGGLE:
+            return state.map((todo) =>
+                todo.id === action.payload
+                    ? { ...todo, completed: !todo.completed }
+                    : todo
+            )
+
+        case TODO_ACTIONS.SET:
+            return action.payload
+
+        default:
+            return state
+    }
+}

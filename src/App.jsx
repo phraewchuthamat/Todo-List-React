@@ -1,10 +1,10 @@
 import TodoModal from './components/TodoModal'
 
-const App = () => {
+function App() {
     return (
-        <div>
+        <main>
             <TodoModal />
-        </div>
+        </main>
     )
 }
 
