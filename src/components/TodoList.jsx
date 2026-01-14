@@ -1,5 +1,6 @@
 import { TodoItem } from './TodoItem'
 import ConfirmDialog from './ConfirmDialog'
+import RetroHeart from './RetroHeart'
 
 export const TodoList = ({
     tasks,
@@ -17,7 +18,11 @@ export const TodoList = ({
         <section>
             <div className="flex justify-between items-start mb-6">
                 <div>
-                    <h1 className="text-4xl font-bold mb-4">To-Do List</h1>
+                    <div className="flex items-center gap-3 mb-4">
+                        <h1 className="text-4xl font-bold">To-Do List</h1>
+                        {/* วางหัวใจตรงนี้! ปรับขนาดเพิ่มได้ถ้าต้องการ */}
+                        <RetroHeart className="mb-2" />
+                    </div>
                     <p className="text-gray-500 text-sm">
                         Tasks left: {activeTasksCount}
                     </p>

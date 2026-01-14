@@ -13,12 +13,12 @@ export const AlertPopup = ({ alert, onClose }) => {
         <div className="fixed top-6 right-6 z-50 animate-bounce-in">
             <div
                 className={`
-                        ${typeStyles[alert.type] || typeStyles.info}
-                        border-2 border-black 
-                        shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
-                        min-w-[300px] p-4 flex justify-between items-center gap-4
-                        transform transition-all duration-300
-                        `}
+                    ${typeStyles[alert.type] || typeStyles.info}
+                    border-2 border-black 
+                    shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
+                    min-w-[300px] p-4 flex justify-between items-center gap-4
+                    transform transition-all duration-300
+                `}
             >
                 <Check />
                 <span className="font-bold text-lg">{alert.message}</span>

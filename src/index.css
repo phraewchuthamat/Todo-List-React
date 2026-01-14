@@ -5,6 +5,18 @@
     --color-secondary: #badfdb;
     --color-accent: #ffa4a4;
     --color-muted: #ffbdbd;
+
+    --animate-heartbeat: heartbeat 1s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
 }
 
 :root {
