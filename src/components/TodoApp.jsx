@@ -4,7 +4,7 @@ import { useAlert } from '../hooks/useAlert'
 import { TodoList } from './TodoList/TodoList'
 import { Container } from './ui/Container'
 import ConfirmDialog from './dialog/ConfirmDialog'
-import { TodoForm } from './todoList/TodoForm'
+import { TodoForm } from './TodoList/TodoForm'
 import { LoadingScreen } from './ui/LoadingScreen'
 
 const VIEW_MODE = {
