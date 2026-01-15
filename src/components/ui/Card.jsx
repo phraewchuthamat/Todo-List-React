@@ -11,21 +11,18 @@ export const Card = ({
         <div
             onClick={onClick}
             className={`
-                /* Base Styles: โครงสร้างหลักของธีม */
                 border-2 border-black 
                 p-4 
                 relative 
                 bg-white
                 transition-all duration-200 
                 
-                /* Hover Logic: ถ้าเปิด hoverEffect จะมีเงาเด้ง */
                 ${
                     hoverEffect
                         ? 'hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 cursor-pointer'
                         : ''
                 }
                 
-                /* Custom Styles overrides */
                 ${className}
             `}
             {...props}

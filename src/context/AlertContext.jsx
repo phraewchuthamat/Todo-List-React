@@ -1,5 +1,5 @@
 import { createContext, useState, useCallback } from 'react'
-import { AlertPopup } from '../components/AlertPopup'
+import { AlertPopup } from '../components/alertPopup/AlertPopup'
 
 const AlertContext = createContext()
 
