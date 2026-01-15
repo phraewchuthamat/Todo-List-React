@@ -29,7 +29,7 @@ export const FormField = ({
 
 FormField.propTypes = {
     label: PropTypes.string,
-    type: PropTypes.string, // 'text', 'date', 'textarea', etc.
+    type: PropTypes.string,
     className: PropTypes.string,
     required: PropTypes.bool,
 }

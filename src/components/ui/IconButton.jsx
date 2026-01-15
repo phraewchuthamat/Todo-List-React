@@ -3,15 +3,14 @@ import PropTypes from 'prop-types'
 export const IconButton = ({
     children,
     onClick,
-    color = 'default', // default, danger, info
+    color = 'default',
     title,
     className = '',
 }) => {
-    // กำหนดสีตอน Hover ตามประเภทปุ่ม
     const colorVariants = {
         default: 'hover:bg-gray-200',
-        danger: 'hover:bg-red-400 hover:text-white', // สำหรับปุ่มลบ
-        info: 'hover:bg-blue-400 hover:text-white', // สำหรับปุ่มแก้ไข
+        danger: 'hover:bg-red-400 hover:text-white',
+        info: 'hover:bg-blue-400 hover:text-white',
         success: 'hover:bg-green-400 hover:text-black',
     }
 
@@ -23,8 +22,7 @@ export const IconButton = ({
                 p-2 
                 border-2 border-transparent 
                 transition-all duration-200 
-                
-                /* Neobrutalism Hover Effect */
+    
                 hover:border-black 
                 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] 
                 hover:-translate-y-1 
