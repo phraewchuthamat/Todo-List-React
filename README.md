@@ -1,8 +1,6 @@
-# 🖤 Neobrutalism To-Do List
+# Neobrutalism To-Do List
 
-> **A bold, high-contrast, and fully responsive Task Manager built with React & Tailwind CSS v4.** > _Clean Architecture. Atomic Design. Ready for Production._
-
-![Project Preview](./public/image/Screenshot-App.png)
+[Project Preview](./public/image/Screenshot-TodoApp.png)
 
 ## ✨ Key Features (ฟีเจอร์เด่น)
 
@@ -55,5 +53,5 @@ npm run dev
 ### 5. Open your browser at
 
 ```bash
-http://localhost:5173
+http://localhost:5174/Todo-List-React/
 ```
