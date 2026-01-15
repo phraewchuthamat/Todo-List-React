@@ -1,9 +1,9 @@
-import TodoModal from './components/TodoModal'
+import TodoApp from './components/TodoApp'
 
 function App() {
     return (
         <main>
-            <TodoModal />
+            <TodoApp />
         </main>
     )
 }

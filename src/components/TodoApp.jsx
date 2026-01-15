@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useTodo } from '../hooks/useTodo'
 import { TodoForm } from './TodoForm'
-import { TodoList } from './TodoList'
+import { TodoList } from './TodoList/TodoList'
 import { useAlert } from '../hooks/useAlert'
 
-export default function TodoModal() {
+export default function TodoApp() {
     const { tasks, createTask, updateTask, deleteTask, toggleComplete } =
         useTodo()
     const { showAlert } = useAlert()

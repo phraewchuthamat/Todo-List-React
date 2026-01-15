@@ -1,4 +1,7 @@
+import PropTypes from 'prop-types'
+import { Checkbox } from '../ui/Checkbox'
 import { SquarePen, Trash } from 'lucide-react'
+import { TodoActions } from './TodoActions'
 
 export const TodoItem = ({ todo, onDelete, onToggle, onEdit }) => {
     const { id, name, dueDate, description, completed } = todo
@@ -10,11 +13,10 @@ export const TodoItem = ({ todo, onDelete, onToggle, onEdit }) => {
             }`}
         >
             <div className="flex items-start gap-3">
-                <input
-                    type="checkbox"
+                <Checkbox
                     checked={completed}
-                    onChange={() => onToggle(todo.id)}
-                    className="mt-1.5 w-5 h-5 accent-secondary cursor-pointer shrink-0 border-2 border-black"
+                    onChange={() => onToggle(id)}
+                    className="mt-1"
                 />
 
                 <div className="flex-1 min-w-0">
@@ -34,22 +36,24 @@ export const TodoItem = ({ todo, onDelete, onToggle, onEdit }) => {
                 </div>
             </div>
 
-            <div className="absolute top-4 right-4 flex gap-2">
-                <button
-                    onClick={() => onEdit(todo)}
-                    className="text-blue-600 hover:scale-125 transition-transform p-1"
-                    title="Edit Task"
-                >
-                    <SquarePen className="w-5 h-5" />
-                </button>
-                <button
-                    onClick={() => onDelete(id)}
-                    className="text-red-500 hover:scale-125 transition-transform p-1"
-                    title="Delete Task"
-                >
-                    <Trash className="w-5 h-5" />
-                </button>
-            </div>
+            <TodoActions
+                onEdit={() => onEdit(todo)}
+                onDelete={() => onDelete(id)}
+            />
         </div>
     )
+}
+
+TodoItem.propTypes = {
+    todo: PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+            .isRequired,
+        name: PropTypes.string.isRequired,
+        dueDate: PropTypes.string,
+        description: PropTypes.string,
+        completed: PropTypes.bool,
+    }).isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onToggle: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
 }
