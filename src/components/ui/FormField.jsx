@@ -1,24 +1,35 @@
+import PropTypes from 'prop-types'
+import { Input } from './Input'
+import { Textarea } from './Textarea'
+
 export const FormField = ({
     label,
     type = 'text',
-    error,
-    className,
+    className = '',
+    required,
     ...props
 }) => {
-    const inputStyle =
-        'w-full border-2 border-black p-3 outline-none focus:bg-gray-50 transition-colors'
-
     return (
-        <div className={className}>
-            {label && <label className="block font-bold mb-2">{label}</label>}
-
-            {type === 'textarea' ? (
-                <textarea className={inputStyle} rows="3" {...props} />
-            ) : (
-                <input type={type} className={inputStyle} {...props} />
+        <div className={`flex flex-col gap-2 ${className}`}>
+            {label && (
+                <label className="font-bold text-lg">
+                    {label}
+                    {required && <span className="text-red-500 ml-1">*</span>}
+                </label>
             )}
 
-            {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+            {type === 'textarea' ? (
+                <Textarea {...props} />
+            ) : (
+                <Input type={type} {...props} />
+            )}
         </div>
     )
+}
+
+FormField.propTypes = {
+    label: PropTypes.string,
+    type: PropTypes.string, // 'text', 'date', 'textarea', etc.
+    className: PropTypes.string,
+    required: PropTypes.bool,
 }

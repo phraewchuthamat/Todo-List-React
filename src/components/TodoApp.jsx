@@ -1,35 +1,51 @@
 import { useState } from 'react'
 import { useTodo } from '../hooks/useTodo'
-import { TodoForm } from './TodoForm'
-import { TodoList } from './TodoList/TodoList'
 import { useAlert } from '../hooks/useAlert'
+import { TodoList } from './TodoList/TodoList'
+import { Container } from './ui/Container'
+import ConfirmDialog from './dialog/ConfirmDialog'
+import { TodoForm } from './todoList/TodoForm'
+
+const VIEW_MODE = {
+    LIST: 'LIST',
+    EDIT: 'EDIT',
+    CREATE: 'CREATE',
+}
 
 export default function TodoApp() {
+    // Custom Hooks
     const { tasks, createTask, updateTask, deleteTask, toggleComplete } =
         useTodo()
     const { showAlert } = useAlert()
 
-    const [view, setView] = useState('LIST')
+    // Local State
+    const [view, setView] = useState(VIEW_MODE.LIST)
     const [editingId, setEditingId] = useState(null)
 
+    // Delete Logic State
     const [isConfirmOpen, setIsConfirmOpen] = useState(false)
     const [targetDeleteId, setTargetDeleteId] = useState(null)
 
+    // Handlers
     const handleSave = (formData) => {
-        if (view === 'EDIT' && editingId) {
+        if (view === VIEW_MODE.EDIT && editingId) {
             updateTask(editingId, formData)
-            showAlert('Update Task Success! ', 'success')
+            showAlert('Update Task Success! 🎉', 'success')
         } else {
             createTask(formData)
-            showAlert('New Task Created! ', 'success')
+            showAlert('New Task Created! 🚀', 'success')
         }
-        setView('LIST')
+        backToList()
+    }
+
+    const backToList = () => {
+        setView(VIEW_MODE.LIST)
         setEditingId(null)
     }
 
     const handleEditClick = (todo) => {
         setEditingId(todo.id)
-        setView('EDIT')
+        setView(VIEW_MODE.EDIT)
     }
 
     const handleDeleteRequest = (id) => {
@@ -41,37 +57,37 @@ export default function TodoApp() {
         deleteTask(targetDeleteId)
         setIsConfirmOpen(false)
         setTargetDeleteId(null)
-        showAlert('Task Deleted! ', 'error')
+        showAlert('Task Deleted! 🗑️', 'error')
     }
 
     const editingTask = tasks.find((t) => t.id === editingId)
 
     return (
-        <div className="min-h-screen bg-primary flex justify-center items-center p-4">
-            <div className="w-full max-w-2xl bg-white border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8">
-                {view === 'LIST' ? (
-                    <TodoList
-                        tasks={tasks}
-                        onAddClick={() => setView('CREATE')}
-                        onEditClick={handleEditClick}
-                        onDeleteClick={handleDeleteRequest}
-                        onToggleClick={toggleComplete}
-                        isConfirmOpen={isConfirmOpen}
-                        confirmDelete={confirmDelete}
-                        cancelDelete={() => setIsConfirmOpen(false)}
-                    />
-                ) : (
-                    <TodoForm
-                        key={editingId ? editingId : 'create-form'}
-                        initialData={view === 'EDIT' ? editingTask : null}
-                        onSubmit={handleSave}
-                        onCancel={() => {
-                            setView('LIST')
-                            setEditingId(null)
-                        }}
-                    />
-                )}
-            </div>
-        </div>
+        <Container>
+            {view === VIEW_MODE.LIST ? (
+                <TodoList
+                    tasks={tasks}
+                    onAddClick={() => setView(VIEW_MODE.CREATE)}
+                    onEditClick={handleEditClick}
+                    onDeleteClick={handleDeleteRequest}
+                    onToggleClick={toggleComplete}
+                />
+            ) : (
+                <TodoForm
+                    key={editingId ? editingId : 'create-form'}
+                    initialData={view === VIEW_MODE.EDIT ? editingTask : null}
+                    onSubmit={handleSave}
+                    onCancel={backToList}
+                />
+            )}
+
+            <ConfirmDialog
+                isOpen={isConfirmOpen}
+                title="Delete Task?"
+                message="Are you sure you want to delete this task? This action cannot be undone."
+                onConfirm={confirmDelete}
+                onCancel={() => setIsConfirmOpen(false)}
+            />
+        </Container>
     )
 }

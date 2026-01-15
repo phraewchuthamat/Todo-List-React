@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { getTodayString } from '../utils/formatDate'
-import { FormField } from './ui/FormField'
+import PropTypes from 'prop-types'
+import { getTodayString } from '../../utils/formatDate'
+import { FormField } from '../ui/FormField'
+import { Button } from '../ui/Button'
 
 export const TodoForm = ({ initialData, onSubmit, onCancel }) => {
     const defaultState = { name: '', description: '', dueDate: '' }
@@ -17,28 +19,28 @@ export const TodoForm = ({ initialData, onSubmit, onCancel }) => {
     }
 
     return (
-        <section className="animate-in fade-in duration-300">
+        <section className="animate-in fade-in slide-in-from-bottom-4 duration-300">
+            {/* Header Section */}
             <div className="flex justify-between items-center mb-8">
-                <h1 className="text-4xl font-bold">
-                    {initialData ? 'Edit Task' : 'Add Task'}
+                <h1 className="text-4xl font-bold font-display">
+                    {initialData ? 'Edit Task' : 'New Task'}
                 </h1>
-                <button
-                    type="button"
-                    onClick={onCancel}
-                    className="bg-accent border-2 border-black px-6 py-2 font-bold hover:bg-muted transition-colors"
-                >
-                    Backward
-                </button>
+
+                <Button type="button" onClick={onCancel} variant="outline">
+                    Back
+                </Button>
             </div>
 
+            {/* Form Section */}
             <form onSubmit={handleSubmit} className="space-y-6">
                 <FormField
-                    label="Title *"
+                    label="Title"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="What needs to be done?"
                     required
+                    autoFocus
                 />
 
                 <FormField
@@ -47,11 +49,11 @@ export const TodoForm = ({ initialData, onSubmit, onCancel }) => {
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
-                    placeholder="Add details..."
+                    placeholder="Add details (optional)..."
                 />
 
                 <FormField
-                    label="Due Date *"
+                    label="Due Date"
                     type="date"
                     name="dueDate"
                     min={getTodayString()}
@@ -59,13 +61,28 @@ export const TodoForm = ({ initialData, onSubmit, onCancel }) => {
                     onChange={handleChange}
                     required
                 />
-                <button
-                    type="submit"
-                    className="w-full bg-secondary border-2 border-black py-4 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 transition-all"
-                >
-                    {initialData ? 'Update Task' : 'Create Task'}
-                </button>
+
+                {/* Submit Button */}
+                <div className="pt-4">
+                    <Button
+                        type="submit"
+                        variant="primary"
+                        className="w-full text-lg py-3"
+                    >
+                        {initialData ? 'Update Task' : 'Create Task'}
+                    </Button>
+                </div>
             </form>
         </section>
     )
+}
+
+TodoForm.propTypes = {
+    initialData: PropTypes.shape({
+        name: PropTypes.string,
+        description: PropTypes.string,
+        dueDate: PropTypes.string,
+    }),
+    onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
 }

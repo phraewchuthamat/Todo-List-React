@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { TodoItem } from './TodoItem'
 import { TodoHeader } from './TodoHeader'
-import ConfirmDialog from '../ConfirmDialog'
+import ConfirmDialog from '../dialog/ConfirmDialog'
 import { TEXT_CONFIG } from '../../config/contants'
 
 export const TodoList = ({
