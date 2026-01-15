@@ -11,17 +11,17 @@ export const TodoItem = ({ todo, onDelete, onToggle, onEdit }) => {
             className={completed ? 'bg-gray-100 opacity-75' : 'bg-white'}
             hoverEffect={!completed}
         >
-            <div className="flex items-start gap-4">
+            <div className="flex items-start gap-3 md:gap-4">
                 <Checkbox
                     checked={completed}
                     onChange={() => onToggle(id)}
-                    className="mt-1"
+                    className="mt-1 shrink-0"
                 />
 
-                <div className="flex-1 min-w-0 pr-16">
+                <div className="flex-1 min-w-0 pr-20">
                     <h3
                         className={`
-                            font-bold text-lg leading-tight break-words transition-colors
+                            font-bold text-base md:text-lg leading-tight break-words transition-colors
                             ${
                                 completed
                                     ? 'line-through text-gray-500'
@@ -34,7 +34,7 @@ export const TodoItem = ({ todo, onDelete, onToggle, onEdit }) => {
 
                     {description && (
                         <p
-                            className={`text-sm leading-tight mt-1 break-words ${
+                            className={`text-xs md:text-sm leading-tight mt-1 break-words ${
                                 completed ? 'text-gray-400' : 'text-gray-500'
                             }`}
                         >
@@ -43,7 +43,7 @@ export const TodoItem = ({ todo, onDelete, onToggle, onEdit }) => {
                     )}
 
                     <p
-                        className={`font-bold mt-3 text-xs uppercase tracking-wider ${
+                        className={`font-bold mt-2 text-[10px] md:text-xs uppercase tracking-wider ${
                             completed ? 'text-gray-400' : 'text-accent'
                         }`}
                     >

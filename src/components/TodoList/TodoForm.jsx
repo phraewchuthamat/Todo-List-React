@@ -21,18 +21,23 @@ export const TodoForm = ({ initialData, onSubmit, onCancel }) => {
     return (
         <section className="animate-in fade-in slide-in-from-bottom-4 duration-300">
             {/* Header Section */}
-            <div className="flex justify-between items-center mb-8">
-                <h1 className="text-4xl font-bold font-display">
+            <div className="flex flex-col-reverse sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                <h1 className="text-3xl md:text-4xl font-bold font-display">
                     {initialData ? 'Edit Task' : 'New Task'}
                 </h1>
 
-                <Button type="button" onClick={onCancel} variant="outline">
+                <Button
+                    type="button"
+                    onClick={onCancel}
+                    variant="outline"
+                    className="self-end sm:self-auto"
+                >
                     Back
                 </Button>
             </div>
 
             {/* Form Section */}
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                 <FormField
                     label="Title"
                     name="name"

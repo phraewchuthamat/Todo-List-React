@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import heartPixel from '../assets/heart-pixel.png'
 
 export const RetroHeart = ({ className = '' }) => {
@@ -10,9 +11,16 @@ export const RetroHeart = ({ className = '' }) => {
                 alt="Pixel Heart"
                 className="w-12 h-12 animate-heartbeat object-contain"
                 draggable="false"
+                style={{
+                    imageRendering: 'pixelated',
+                }}
             />
         </div>
     )
+}
+
+RetroHeart.propTypes = {
+    className: PropTypes.string,
 }
 
 export default RetroHeart

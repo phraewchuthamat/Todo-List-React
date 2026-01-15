@@ -19,7 +19,7 @@ export default function ConfirmDialog({
             />
 
             {/* Modal Content */}
-            <div className="relative w-full max-w-sm bg-primary border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-6 animate-in zoom-in-95 duration-200">
+            <div className="relative w-[90%] md:w-full bg-primary border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-6 animate-in zoom-in-95 duration-200">
                 {/* Header: Icon + Title */}
                 <div className="flex flex-col items-center mb-4">
                     <div className="bg-red-100 p-3 rounded-full border-2 border-black mb-3">

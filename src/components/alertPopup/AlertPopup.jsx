@@ -1,36 +1,69 @@
-import { X, Check } from 'lucide-react'
+import PropTypes from 'prop-types'
+import { X, CheckCircle2, AlertCircle, Info } from 'lucide-react'
+import { IconButton } from '../ui/IconButton'
 
 export const AlertPopup = ({ alert, onClose }) => {
     if (!alert.isOpen) return null
 
-    const typeStyles = {
-        success: 'bg-[#A8DF8E] text-black',
-        error: 'bg-[#FFAAB8] text-black',
-        info: 'bg-[#FEEE91] text-black',
+    const alertConfig = {
+        success: {
+            bgColor: 'bg-[#A8DF8E]',
+            icon: <CheckCircle2 className="w-6 h-6" strokeWidth={3} />,
+            textColor: 'text-black',
+        },
+        error: {
+            bgColor: 'bg-[#FFAAB8]',
+            icon: <AlertCircle className="w-6 h-6" strokeWidth={3} />,
+            textColor: 'text-black',
+        },
+        info: {
+            bgColor: 'bg-[#FEEE91]',
+            icon: <Info className="w-6 h-6" strokeWidth={3} />,
+            textColor: 'text-black',
+        },
     }
 
+    const currentStyle = alertConfig[alert.type] || alertConfig.info
+
     return (
-        <div className="fixed top-6 right-6 z-50 animate-bounce-in">
+        <div className="fixed top-6 right-6 z-[100] animate-in slide-in-from-top-2 fade-in duration-300">
             <div
+                role="alert"
                 className={`
-                    ${typeStyles[alert.type] || typeStyles.info}
+                    ${currentStyle.bgColor} 
+                    ${currentStyle.textColor}
                     border-2 border-black 
                     shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
-                    min-w-[300px] p-4 flex justify-between items-center gap-4
-                    transform transition-all duration-300
+                    min-w-[320px] 
+                    p-4 
+                    flex items-center gap-4
                 `}
             >
-                <Check />
-                <span className="font-bold text-lg">{alert.message}</span>
-                <button
-                    onClick={onClose}
-                    className="p-1 hover:bg-black hover:text-white border-2 border-transparent hover:border-transparent rounded-none transition-colors"
-                >
-                    <span className="font-black font-mono">
-                        <X />
-                    </span>
-                </button>
+                <div className="shrink-0">{currentStyle.icon}</div>
+
+                <div className="flex-1 font-bold text-lg leading-tight">
+                    {alert.message}
+                </div>
+
+                <div className="shrink-0">
+                    <IconButton
+                        onClick={onClose}
+                        className="bg-transparent hover:bg-black hover:text-white border-transparent"
+                        title="Close"
+                    >
+                        <X className="w-5 h-5" strokeWidth={3} />
+                    </IconButton>
+                </div>
             </div>
         </div>
     )
+}
+
+AlertPopup.propTypes = {
+    alert: PropTypes.shape({
+        isOpen: PropTypes.bool,
+        type: PropTypes.oneOf(['success', 'error', 'info']),
+        message: PropTypes.string,
+    }).isRequired,
+    onClose: PropTypes.func.isRequired,
 }

@@ -5,23 +5,26 @@ import { TEXT_CONFIG } from '../../config/contants'
 
 export const TodoHeader = ({ activeTasksCount, onAddClick }) => {
     return (
-        <div className="flex justify-between items-start mb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
             <div>
-                <div className="flex items-center gap-3 mb-4">
-                    <h1 className="text-4xl font-bold font-display">
+                <div className="flex items-center gap-3 mb-2">
+                    <h1 className="text-3xl md:text-4xl font-bold font-display">
                         {TEXT_CONFIG.title}
                     </h1>
-                    <RetroHeart className="mb-2 animate-pulse" />
+                    <RetroHeart className="mb-2 animate-pulse scale-75 md:scale-100 origin-bottom-left" />
                 </div>
                 <p className="text-gray-500 text-sm font-bold">
-                    {TEXT_CONFIG.tasksLeft}
-                    <span className="text-gray-500 ml-4">
-                        {activeTasksCount}
-                    </span>
+                    {TEXT_CONFIG.tasksLeft}{' '}
+                    <span className="text-gray-500">{activeTasksCount}</span>
                 </p>
             </div>
 
-            <Button onClick={onAddClick}>{TEXT_CONFIG.addTaskBtn}</Button>
+            <Button
+                onClick={onAddClick}
+                className="w-full sm:w-auto text-center"
+            >
+                {TEXT_CONFIG.addTaskBtn}
+            </Button>
         </div>
     )
 }
