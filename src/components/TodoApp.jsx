@@ -5,6 +5,7 @@ import { TodoList } from './TodoList/TodoList'
 import { Container } from './ui/Container'
 import ConfirmDialog from './dialog/ConfirmDialog'
 import { TodoForm } from './todoList/TodoForm'
+import { LoadingScreen } from './ui/LoadingScreen'
 
 const VIEW_MODE = {
     LIST: 'LIST',
@@ -14,8 +15,14 @@ const VIEW_MODE = {
 
 export default function TodoApp() {
     // Custom Hooks
-    const { tasks, createTask, updateTask, deleteTask, toggleComplete } =
-        useTodo()
+    const {
+        tasks,
+        isLoading,
+        createTask,
+        updateTask,
+        deleteTask,
+        toggleComplete,
+    } = useTodo()
     const { showAlert } = useAlert()
 
     // Local State
@@ -64,21 +71,29 @@ export default function TodoApp() {
 
     return (
         <Container>
-            {view === VIEW_MODE.LIST ? (
-                <TodoList
-                    tasks={tasks}
-                    onAddClick={() => setView(VIEW_MODE.CREATE)}
-                    onEditClick={handleEditClick}
-                    onDeleteClick={handleDeleteRequest}
-                    onToggleClick={toggleComplete}
-                />
+            {isLoading ? (
+                <LoadingScreen />
             ) : (
-                <TodoForm
-                    key={editingId ? editingId : 'create-form'}
-                    initialData={view === VIEW_MODE.EDIT ? editingTask : null}
-                    onSubmit={handleSave}
-                    onCancel={backToList}
-                />
+                <div className="animate-in fade-in duration-300">
+                    {view === VIEW_MODE.LIST ? (
+                        <TodoList
+                            tasks={tasks}
+                            onAddClick={() => setView(VIEW_MODE.CREATE)}
+                            onEditClick={handleEditClick}
+                            onDeleteClick={handleDeleteRequest}
+                            onToggleClick={toggleComplete}
+                        />
+                    ) : (
+                        <TodoForm
+                            key={editingId ? editingId : 'create-form'}
+                            initialData={
+                                view === VIEW_MODE.EDIT ? editingTask : null
+                            }
+                            onSubmit={handleSave}
+                            onCancel={backToList}
+                        />
+                    )}
+                </div>
             )}
 
             <ConfirmDialog

@@ -5,7 +5,7 @@ export const useData = [
         description:
             'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem.',
         id: 1,
-        completed: false,
+        completed: true,
     },
     {
         name: 'wash dishes',

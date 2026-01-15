@@ -4,10 +4,14 @@ export const TODO_ACTIONS = {
     UPDATE: 'UPDATE',
     TOGGLE: 'TOGGLE',
     SET: 'SET',
+    INIT_DATA: 'INIT_DATA',
 }
 
 export const todoReducer = (state, action) => {
     switch (action.type) {
+        case TODO_ACTIONS.INIT_DATA:
+            return action.payload
+
         case TODO_ACTIONS.CREATE:
             return [...state, action.payload]
 

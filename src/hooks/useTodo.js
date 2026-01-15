@@ -9,7 +9,7 @@ export const useTodo = () => {
         throw new Error('useTodo must be used within a TodoProvider')
     }
 
-    const { tasks, dispatch } = context
+    const { tasks, dispatch, isLoading } = context
 
     const createTask = (formData) => {
         const newTask = {
@@ -24,8 +24,11 @@ export const useTodo = () => {
         dispatch({ type: TODO_ACTIONS.DELETE, payload: id })
     }
 
-    const updateTask = (id) => {
-        dispatch({ type: TODO_ACTIONS.UPDATE, payload: id })
+    const updateTask = (id, updatedData) => {
+        dispatch({
+            type: TODO_ACTIONS.UPDATE,
+            payload: { id, ...updatedData },
+        })
     }
 
     const toggleComplete = (id) => {
@@ -34,6 +37,7 @@ export const useTodo = () => {
 
     return {
         tasks,
+        isLoading,
         createTask,
         deleteTask,
         updateTask,
