@@ -2,8 +2,8 @@ import { RetroHeart } from '../RetroHeart'
 export const LoadingScreen = () => {
     return (
         <div className="flex flex-col justify-center items-center h-64 gap-6 animate-in fade-in duration-500">
-            <div className="relative ">
-                <RetroHeart className="w-24 h-24 animate-heartbeat ml-8" />
+            <div className="relative">
+                <RetroHeart className="w-24 h-24 animate-heartbeat ml-10" />
                 <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-16 h-4 bg-black/20 rounded-full blur-sm animate-pulse" />
             </div>
 
