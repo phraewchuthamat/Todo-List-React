@@ -6,7 +6,7 @@ export const RetroHeart = ({ className = '' }) => {
             <img
                 src="public\image\heart-pixel.png"
                 alt="Pixel Heart"
-                className="w-10 h-10 animate-heartbeat object-contain"
+                className="w-12 h-12 animate-heartbeat object-contain"
                 draggable="false"
             />
         </div>
