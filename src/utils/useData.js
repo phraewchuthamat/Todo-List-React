@@ -1,6 +1,6 @@
 export const useData = [
     {
-        name: 'make dinner',
+        name: 'Task 1',
         dueDate: '2026-12-24',
         description:
             'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem.',
@@ -8,7 +8,7 @@ export const useData = [
         completed: true,
     },
     {
-        name: 'wash dishes',
+        name: 'Task 2',
         dueDate: '2026-12-24',
         description:
             'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem.',
@@ -16,7 +16,7 @@ export const useData = [
         completed: false,
     },
     {
-        name: 'read book',
+        name: 'Task 3',
         dueDate: '2026-12-24',
         description:
             'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem.',

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { Card } from '../ui/Card'
 import { Checkbox } from '../ui/Checkbox'
 import { TodoActions } from './TodoActions'
+import { formatDateDisplay } from '../../utils/formatDate'
 
 export const TodoItem = ({ todo, onDelete, onToggle, onEdit }) => {
     const { id, name, dueDate, description, completed } = todo
@@ -47,7 +48,7 @@ export const TodoItem = ({ todo, onDelete, onToggle, onEdit }) => {
                             completed ? 'text-gray-400' : 'text-accent'
                         }`}
                     >
-                        Due: {dueDate}
+                        Due: {formatDateDisplay(dueDate)}
                     </p>
                 </div>
             </div>
