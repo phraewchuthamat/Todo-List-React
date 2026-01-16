@@ -18,6 +18,9 @@ export const TodoForm = ({ initialData, onSubmit, onCancel }) => {
         onSubmit(formData)
     }
 
+    const isFormValid =
+        formData.name.trim().length > 0 && formData.dueDate !== ''
+
     return (
         <section className="animate-in fade-in slide-in-from-bottom-4 duration-300">
             {/* Header Section */}
@@ -72,7 +75,10 @@ export const TodoForm = ({ initialData, onSubmit, onCancel }) => {
                     <Button
                         type="submit"
                         variant="primary"
-                        className="w-full text-lg py-3"
+                        disabled={!isFormValid}
+                        className={`w-full text-lg py-3 ${
+                            !isFormValid ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
                     >
                         {initialData ? 'Update Task' : 'Create Task'}
                     </Button>
