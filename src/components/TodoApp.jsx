@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { useTodo } from '../hooks/useTodo'
 import { useAlert } from '../hooks/useAlert'
 import { TodoList } from './TodoList/TodoList'
@@ -6,6 +6,7 @@ import { Container } from './ui/Container'
 import ConfirmDialog from './dialog/ConfirmDialog'
 import { TodoForm } from './TodoList/TodoForm'
 import { LoadingScreen } from './ui/LoadingScreen'
+import { AlertPopup } from './alertPopup/AlertPopup'
 
 const VIEW_MODE = {
     LIST: 'LIST',
@@ -14,7 +15,6 @@ const VIEW_MODE = {
 }
 
 export default function TodoApp() {
-    // Custom Hooks
     const {
         tasks,
         isLoading,
@@ -23,54 +23,65 @@ export default function TodoApp() {
         deleteTask,
         toggleComplete,
     } = useTodo()
-    const { showAlert } = useAlert()
+    const { alert, showAlert, closeAlert } = useAlert()
 
-    // Local State
     const [view, setView] = useState(VIEW_MODE.LIST)
     const [editingId, setEditingId] = useState(null)
-
-    // Delete Logic State
     const [isConfirmOpen, setIsConfirmOpen] = useState(false)
     const [targetDeleteId, setTargetDeleteId] = useState(null)
 
-    // Handlers
-    const handleSave = (formData) => {
-        if (view === VIEW_MODE.EDIT && editingId) {
-            updateTask(editingId, formData)
-            showAlert('Update Task Success! 🎉', 'success')
-        } else {
-            createTask(formData)
-            showAlert('New Task Created! 🚀', 'success')
-        }
-        backToList()
-    }
-
-    const backToList = () => {
+    const backToList = useCallback(() => {
         setView(VIEW_MODE.LIST)
         setEditingId(null)
-    }
+    }, [])
 
-    const handleEditClick = (todo) => {
+    const handleSave = useCallback(
+        (formData) => {
+            if (view === VIEW_MODE.EDIT && editingId) {
+                updateTask(editingId, formData)
+                showAlert('Update Task Success! 🎉', 'success')
+            } else {
+                createTask(formData)
+                showAlert('New Task Created! 🚀', 'success')
+            }
+
+            setView(VIEW_MODE.LIST)
+            setEditingId(null)
+        },
+        [view, editingId, updateTask, createTask, showAlert]
+    )
+
+    const handleEditClick = useCallback((todo) => {
         setEditingId(todo.id)
         setView(VIEW_MODE.EDIT)
-    }
+    }, [])
 
-    const handleDeleteRequest = (id) => {
+    const handleDeleteRequest = useCallback((id) => {
         setTargetDeleteId(id)
         setIsConfirmOpen(true)
-    }
+    }, [])
 
-    const confirmDelete = () => {
-        deleteTask(targetDeleteId)
+    const confirmDelete = useCallback(() => {
+        if (targetDeleteId) {
+            deleteTask(targetDeleteId)
+            showAlert('Task Deleted! 🗑️', 'error')
+        }
         setIsConfirmOpen(false)
         setTargetDeleteId(null)
-        showAlert('Task Deleted! 🗑️', 'error')
-    }
+    }, [targetDeleteId, deleteTask, showAlert])
 
-    const editingTask = tasks.find((t) => t.id === editingId)
+    const activeTasksCount = tasks.filter((t) => !t.completed).length
+
+    const editingTask = useMemo(() => {
+        return view === VIEW_MODE.EDIT
+            ? tasks.find((t) => t.id === editingId)
+            : null
+    }, [view, tasks, editingId])
 
     return (
         <Container>
+            <AlertPopup alert={alert} onClose={closeAlert} />
+
             {isLoading ? (
                 <LoadingScreen />
             ) : (
@@ -78,6 +89,7 @@ export default function TodoApp() {
                     {view === VIEW_MODE.LIST ? (
                         <TodoList
                             tasks={tasks}
+                            activeTasksCount={activeTasksCount}
                             onAddClick={() => setView(VIEW_MODE.CREATE)}
                             onEditClick={handleEditClick}
                             onDeleteClick={handleDeleteRequest}
@@ -85,10 +97,8 @@ export default function TodoApp() {
                         />
                     ) : (
                         <TodoForm
-                            key={editingId ? editingId : 'create-form'}
-                            initialData={
-                                view === VIEW_MODE.EDIT ? editingTask : null
-                            }
+                            key={editingId || 'create'}
+                            initialData={editingTask}
                             onSubmit={handleSave}
                             onCancel={backToList}
                         />
@@ -99,7 +109,7 @@ export default function TodoApp() {
             <ConfirmDialog
                 isOpen={isConfirmOpen}
                 title="Delete Task?"
-                message="Are you sure you want to delete this task? This action cannot be undone."
+                message="Are you sure? It's gone forever."
                 onConfirm={confirmDelete}
                 onCancel={() => setIsConfirmOpen(false)}
             />

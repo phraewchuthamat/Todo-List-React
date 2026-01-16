@@ -1,11 +1,16 @@
+import { memo } from 'react'
 import PropTypes from 'prop-types'
 import { Card } from '../ui/Card'
 import { Checkbox } from '../ui/Checkbox'
 import { TodoActions } from './TodoActions'
 import { formatDateDisplay } from '../../utils/formatDate'
 
-export const TodoItem = ({ todo, onDelete, onToggle, onEdit }) => {
+export const TodoItem = memo(({ todo, onDelete, onToggle, onEdit }) => {
     const { id, name, dueDate, description, completed } = todo
+
+    const handleToggle = () => onToggle(id)
+    const handleDelete = () => onDelete(id)
+    const handleEdit = () => onEdit(todo)
 
     return (
         <Card
@@ -15,7 +20,7 @@ export const TodoItem = ({ todo, onDelete, onToggle, onEdit }) => {
             <div className="flex items-start gap-3 md:gap-4">
                 <Checkbox
                     checked={completed}
-                    onChange={() => onToggle(id)}
+                    onChange={handleToggle}
                     className="mt-1 shrink-0"
                 />
 
@@ -53,13 +58,10 @@ export const TodoItem = ({ todo, onDelete, onToggle, onEdit }) => {
                 </div>
             </div>
 
-            <TodoActions
-                onEdit={() => onEdit(todo)}
-                onDelete={() => onDelete(id)}
-            />
+            <TodoActions onEdit={handleEdit} onDelete={handleDelete} />
         </Card>
     )
-}
+})
 
 TodoItem.propTypes = {
     todo: PropTypes.shape({

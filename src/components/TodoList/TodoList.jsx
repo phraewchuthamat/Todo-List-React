@@ -1,20 +1,16 @@
 import PropTypes from 'prop-types'
 import { TodoItem } from './TodoItem'
 import { TodoHeader } from './TodoHeader'
-import ConfirmDialog from '../dialog/ConfirmDialog'
 import { TEXT_CONFIG } from '../../config/contants'
 
 export const TodoList = ({
     tasks = [],
+    activeTasksCount,
     onAddClick,
     onEditClick,
     onDeleteClick,
     onToggleClick,
-    isConfirmOpen,
-    confirmDelete,
-    cancelDelete,
 }) => {
-    const activeTasksCount = tasks.filter((t) => !t.completed).length
     const hasTasks = tasks.length > 0
 
     return (
@@ -32,29 +28,17 @@ export const TodoList = ({
                         </p>
                     </div>
                 ) : (
-                    tasks.map(
-                        (item) =>
-                            item &&
-                            item.id && (
-                                <TodoItem
-                                    key={item.id}
-                                    todo={item}
-                                    onDelete={() => onDeleteClick(item.id)}
-                                    onToggle={onToggleClick}
-                                    onEdit={onEditClick}
-                                />
-                            )
-                    )
+                    tasks.map((item) => (
+                        <TodoItem
+                            key={item.id}
+                            todo={item}
+                            onDelete={onDeleteClick}
+                            onToggle={onToggleClick}
+                            onEdit={onEditClick}
+                        />
+                    ))
                 )}
             </div>
-
-            <ConfirmDialog
-                isOpen={isConfirmOpen}
-                title={TEXT_CONFIG.deleteTitle}
-                message={TEXT_CONFIG.deleteMsg}
-                onConfirm={confirmDelete}
-                onCancel={cancelDelete}
-            />
         </section>
     )
 }
@@ -72,7 +56,4 @@ TodoList.propTypes = {
     onEditClick: PropTypes.func,
     onDeleteClick: PropTypes.func.isRequired,
     onToggleClick: PropTypes.func.isRequired,
-    isConfirmOpen: PropTypes.bool,
-    confirmDelete: PropTypes.func,
-    cancelDelete: PropTypes.func,
 }
