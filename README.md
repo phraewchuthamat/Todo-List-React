@@ -2,7 +2,10 @@
 
 <div align="center">
   <!-- Video Preview -->
-  <video src="./public/Todolist.mp4" width="100%" controls autoplay loop muted></video>
+  <video width="100%" controls autoplay loop muted poster="./public/image/Screenshot-TodoApp.png">
+    <source src="./public/Todolist.mp4" type="video/mp4">
+    Your browser does not support the video tag. <a href="./public/Todolist.mp4">Click here to watch the video</a>.
+  </video>
   
   **Modern • Retro • Interactive**
 </div>
